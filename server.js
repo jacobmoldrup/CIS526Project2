@@ -39,6 +39,14 @@ router.get('/public/styles/index.css', function(req, res) {
   });
 });
 
+router.get('/public/images/:filename',function(req, res){
+    fs.readFile('/public/images/' + req.params.filename, function(err, body){
+      res.setHeader('Content-Type', 'image/*');
+      res.end(body);
+    });
+});
+
+
 var team = require('./src/resource/team');
 router.resource('/teams', team);
 
@@ -46,10 +54,10 @@ var migrate = require('./lib/migrate');
 migrate(db, 'migrations', function(err){
 
   var server = new http.Server(function(req, res) {
-    router.route(req, res);
+     router.route(req, res);
   });
   server.listen(PORT, function(){
-    console.log("listening on port " + PORT);
+      console.log("listening on port " + PORT);
   });
 
 
