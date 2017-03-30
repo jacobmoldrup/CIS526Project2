@@ -1,19 +1,26 @@
 <!doctype html>
 <head>
     <title>NFL Data</title>
-    <link href="public/styles/shared.css" rel="stylesheet" type="text/css">
-    <link href="public/styles/index.css" rel="stylesheet" type="text/css">
+    <link href="/public/styles/index.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+    <script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous">
+      </script>
+
       <script src="/app.js" type="text/javascript"></script>
+
      <div class="header">
          <div class="header-elements">
-            <a href="index.html"><h1 class="header-home-title">NFL Data</h1></a>
-            <a class="header-form-link" href="add-new-form.html">Add New Team</a>
+            <a href="/"><h1 class="/Teams/" onclick="loadIndex()">NFL Data</h1></a>
+            <!--<a id="create-button" class="header-form-link" href="/Teams/Create" onclick="formVisible()">Add New Team</a>-->
          </div>
     </div>
-    <div class="container body-content">
-        {{context.imageTags}}
+
+    <div class="container body-content" id="data-display">
+        <!--Data is placed here in JS-->
     </div>
 
 </body>

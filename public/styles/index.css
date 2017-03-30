@@ -1,0 +1,58 @@
+.clipboard-image {
+  width: 315px;
+  height: 190px;
+}
+
+
+.header{
+  background-color: black;
+  height: 80px;
+  width: 100%;
+  float: left;
+}
+
+
+.header-home-title{
+    width: 146px;
+    display: inline;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    margin-right: 40
+}
+
+
+.header-form-link{
+  display: inline-flex;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14pt;
+  color: white;
+}
+
+.header-elements{
+    padding-top: 20px;
+    height: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-right: 0px;
+}
+
+
+a{
+      text-decoration: none;
+}
+
+.logo-large{
+    width: 100%;
+    align-content: center;
+    align-self: center;
+}
+
+.team-logo{
+  align-content: center;
+  align-self: center;
+  position: relative;
+  width: 75%;
+}
+.form{
+  display: none;
+}

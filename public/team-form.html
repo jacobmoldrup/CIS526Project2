@@ -1,0 +1,33 @@
+<div class='form' id="the-form">
+    <div class="form-content">
+        <form action="" method="POST" enctype="multipart/form-data">
+            <fieldset>
+                <ul>
+                    <li>
+                        <label for="name"> Name: 
+                        <input type="text" name="team" id="name"></label>
+                    </li>
+                    <li>
+                        <label for="coach"> Coach: 
+                        <input type="text" name="coach" id="coach"></label>
+                    </li>
+                    <li>
+                        <label for="record"> Record: 
+                        <input type="text" name="record" id="record"></label>
+                    </li>
+                    <li>
+                        <label for="description"> Description: 
+                        <input type="text" name="description" id="description"></label>
+                    </li>
+                    <li>
+                        <label for="image"> Team Logo: 
+                        <input type="file" name="image" id="uploaded-image"></label>
+                    </li>
+                    <li>
+                        <input type="submit" value="Submit" onclick="uploadTeam()">
+                    </li>
+                </ul>
+            </fieldset>
+        </form>      
+    </div>
+</div>
