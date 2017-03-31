@@ -5,6 +5,8 @@ var PORT = 9595;
 var fs = require('fs');
 var http = require('http');
 var sqlite3 = require('sqlite3').verbose();
+var team = require('./src/resource/team');
+//var app = require('./public/app');
 var db = new sqlite3.Database('nfl-data.sqlite3', function(err) {
   if(err) console.error(err);
 });
@@ -17,6 +19,12 @@ router.get('/', function(req, res) {
     res.setHeader('Content-Type', 'text/html');
     res.end(body);
   });
+});
+
+router.post('/', function(req, res){
+    team.create(req, res, db);
+    
+
 });
 
 router.get('/app.js', function(req, res) {
@@ -45,6 +53,11 @@ router.get('/public/images/:filename',function(req, res){
       res.end(body);
     });
 });
+
+// router.get('/teams/:id',function(req, res){
+//     //app.loadTeam('/teams/' + req.params.id);
+//     console.log('Yay we made it');
+// });
 
 
 var team = require('./src/resource/team');

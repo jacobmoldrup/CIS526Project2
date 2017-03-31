@@ -1,4 +1,6 @@
 "use strict";
+var multipart = require('./../../lib/multipart');
+var fs = require('fs');
 
 /** @module team
  * A RESTful resource representing team
@@ -37,33 +39,49 @@ function list(req, res, db) {
  * @param {sqlite3.Database} db - the database object
  */
 function create(req, res, db) {
-  var body = "";
-
-  req.on("error", function(err){
-    console.error(err);
-    res.statusCode = 500;
-    res.end("Server error");
-  });
-
-  req.on("data", function(data){
-    body += data;
-  });
-
-  req.on("end", function() {
-    var team = JSON.parse(body);
+  multipart(req, res, function(){
+    var team ={
+      name:req.body.name.toString(),
+      coach:req.body.coach.toString(),
+      description:req.body.description.toString(),
+      record:req.body.record.toString(),
+      imagePath: req.body.image.filename.toString()
+    };
     db.run("INSERT INTO teams (name, description, record, image, coach) VALUES (?,?,?,?,?)",
-      [team.name, team.description, team.record, team.image, '/public/images/' + team.coach],
+    [team.name, team.description, team.record, '/public/images/' + team.imagePath , team.coach],
       function(err) {
-        if(err) {
-          console.error(err);
-          res.statusCode = 500;
-          res.end("Could not insert team into database");
-          return;
+          if(err) {
+            console.error(err);
+            res.statusCode = 500;
+            res.end("Could not insert team into database");
+            return;
+          }
+          res.statusCode = 200;
+          res.end();
         }
-        res.statusCode = 200;
-        res.end();
-      }
-    );
+      );
+      uploadImage(req, res);
+
+  });
+
+  
+}
+
+/** @function uploadImage
+ * A function to process an http POST request
+ * containing an image to add to the gallery.
+ * @param {http.incomingRequest} req - the request object
+ * @param {http.serverResponse} res - the response object
+ */
+function uploadImage(req, res) { 
+  fs.writeFile('public/images/' + req.body.image.filename, req.body.image.data, function(err){
+    if(err) {
+      console.error(err);
+      res.statusCode = 500;
+      res.statusMessage = "Server Error";
+      res.end("Server Error");
+      return;
+    }
   });
 }
 
