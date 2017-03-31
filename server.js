@@ -6,7 +6,7 @@ var fs = require('fs');
 var http = require('http');
 var sqlite3 = require('sqlite3').verbose();
 var team = require('./src/resource/team');
-// var app = require('./public/app');
+
 var db = new sqlite3.Database('nfl-data.sqlite3', function(err) {
   if(err) console.error(err);
 });
@@ -56,10 +56,6 @@ router.get('/public/images/:filename',function(req, res){
       res.end(body);
     });
 });
-
-// router.get('/teams/:id',function(req, res){
-//     console.log('Yay we made it');
-// });
 
 
 var team = require('./src/resource/team');

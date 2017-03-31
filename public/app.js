@@ -1,8 +1,3 @@
-// /** @module team
-//  * A RESTful resource representing team
-//  * implementing the CRUD methods.
-//  */
-// module.exports = loadTeam;
 
 $('#home-link').on('click', function(event){
     event.preventDefault();
