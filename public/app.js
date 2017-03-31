@@ -2,11 +2,12 @@
 //  * A RESTful resource representing team
 //  * implementing the CRUD methods.
 //  */
-// module.exports = {
-//   loadTeam: loadTeam,
-// }
+// module.exports = loadTeam;
 
-
+$('#home-link').on('click', function(event){
+    event.preventDefault();
+    loadIndex();
+});
 function loadTeam(teamIdurl){
     $.get(teamIdurl, function(team, status){
         if(status == "success"){
@@ -45,15 +46,16 @@ function loadIndex(){
   $.get('/teams', function(teams, status){
     if(status == "success"){
       teams.forEach(function(team){
-        // var link = $('<a>')
-        //     .text(team.image)
-        //     .attr('href', '/teams/' + team.id)
-            
+        var link = $('<a>')
+            .attr('href', '/teams/' + team.id)
+            .on('click', function(event){
+                event.preventDefault();
+                loadTeam('/teams/' + team.id);
+            });
           var imageTag = $('<img class="clipboard-image">');
           imageTag.attr('src', team.image);
-          imageTag.on('click', function(){
-            loadTeam('/teams/' + team.id);
-          }).appendTo('#data-display');
+          imageTag.appendTo(link);
+          link.appendTo('#data-display');
       });
       $('<br>').appendTo('#data-display');
       $('<br>').appendTo('#data-display');
@@ -67,14 +69,6 @@ function loadIndex(){
                     var xhr = new XMLHttpRequest();
                     xhr.open('POST', '/', true);
                     xhr.send(new FormData(formElement));
-
-                    // var data = new FormData($('#team-form')[0]);
-                    // $.post({
-                    //     url: '/teams',
-                    //     data: data,
-                    //     contentType: 'multipart/form-data',
-                    //     processData: false
-                    // });
                 });
           });
       }).appendTo('#data-display');
@@ -83,20 +77,6 @@ function loadIndex(){
     }
   });
 }
-
-
-// function uploadTeam(){
-//     var xhr = new XMLHttpRequest();
-//     var formElement = document.getElementById('the-form');
-//     var formData = new FormData(formElement);
-//     formData.append('image', $('input[type=file]')[0].files[0])
-//     xhr.open('POST', '/teams/');// what is second param
-//     xhr.send(formData);
-
-//     // https://robots.thoughtbot.com/ridiculously-simple-ajax-uploads-with-formdata
-//     // http://stackoverflow.com/questions/21044798/how-to-use-formdata-for-ajax-file-upload
-//     return false;
-// }
 
 loadIndex();
 
