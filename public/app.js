@@ -1,6 +1,5 @@
 
-
-//Load index with jquery
+var multipart = require('/lib/multipart.js');
 
 function loadIndex(){
   $.get('/teams', function(teams, status){
@@ -22,6 +21,7 @@ function loadIndex(){
                         event.preventDefault();
                         $('#data-display').empty();
                         var data = new FormData($('form')[0]);
+                        
                         $.post({
                             url: '/teams',
                             data: data,
@@ -79,22 +79,6 @@ function loadTeam(url){
 
 }
 
-function formInvisible()
-{
-      var formElement = document.getElementById('the-form');
-      formElement.style.display = 'none';
-      loadIndex();
-}
-
-function formVisible()
-{
-      var bodyContent = document.body.getElementById('data-display');
-      bodyContent.innerHTML = "";
-      var formElement = document.getElementById('the-form');
-      formElement.style.display = 'block';
-}
-
-
 function uploadTeam(){
     var xhr = new XMLHttpRequest();
     var formElement = document.getElementById('the-form');
@@ -111,4 +95,57 @@ function uploadTeam(){
 
 
 
+
+function uploadData(req, res){
+  multipart(req, res, function(){
+    var jsonData ={
+      name:req.body.team,
+      coach:req.body.coach,
+      description:req.body.description,
+      location:req.body.location,
+      record:req.body.record,
+      imagePath: "/" + req.body.image.filename
+    }
+    var jsonFileName = req.body.image.filename.split('.')[0];
+    fs.writeFile("public/Data/" + jsonFileName + ".json", JSON.stringify(jsonData),function(err){
+      if(err)console.log(err);
+    });
+    jsonFiles[jsonFileName] = jsonData;
+    uploadImage(req, res);
+
+  });
+}
+
+/** @function uploadImage
+ * A function to process an http POST request
+ * containing an image to add to the gallery.
+ * @param {http.incomingRequest} req - the request object
+ * @param {http.serverResponse} res - the response object
+ */
+function uploadImage(req, res) { 
+  fs.writeFile('public/images/' + req.body.image.filename, req.body.image.data, function(err){
+    if(err) {
+      console.error(err);
+      res.statusCode = 500;
+      res.statusMessage = "Server Error";
+      res.end("Server Error");
+      return;
+    }
+    serveAllTeams(req, res);
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
+
 loadIndex();
+
+
