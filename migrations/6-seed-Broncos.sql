@@ -1,0 +1,2 @@
+INSERT INTO teams (name, description, record, image, coach)
+VALUES ("Broncos","Hate: More than the patriots. A 0-16 season brings joy to all. Love: the fact that they didn't make the playoffs.","1-15", "/public/images/Broncos.jpg", "Vance Joseph" );

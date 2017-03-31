@@ -33,14 +33,14 @@ router.get('/public/team-form.html', function(req, res) {
 });
 
 router.get('/public/styles/index.css', function(req, res) {
-  fs.readFile('/public/styles/index.css', function(err, body){
+  fs.readFile('public/styles/index.css', function(err, body){
     res.setHeader('Content-Type', 'text/css');
     res.end(body);
   });
 });
 
 router.get('/public/images/:filename',function(req, res){
-    fs.readFile('/public/images/' + req.params.filename, function(err, body){
+    fs.readFile('public/images/' + req.params.filename, function(err, body){
       res.setHeader('Content-Type', 'image/*');
       res.end(body);
     });

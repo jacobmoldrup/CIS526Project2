@@ -1,17 +1,18 @@
 
-var multipart = require('/lib/multipart.js');
-
 function loadIndex(){
   $.get('/teams', function(teams, status){
     if(status == "success"){
       teams.forEach(function(team){
         var link = $('<a>')
-          .text(team.name)
+        //   .text(team.image)
           .attr('href', '/teams/' + team.id)
           .on('click', function(){
             e.preventDefault();
             loadTeam('/teams/' + team.id);
-          }).appendTo('#data-display')
+          }).appendTo('#data-display');
+          var imageTag = $('<img class="clipboard-image">');
+          imageTag.attr('src', team.image);
+          imageTag.appendTo(link);
       });
       $('<button>').text('Add Team').on('click', function(){
           // adds form to page
@@ -20,8 +21,15 @@ function loadIndex(){
                 $('form').on('submit',function(event){
                         event.preventDefault();
                         $('#data-display').empty();
-                        var data = new FormData($('form')[0]);
-                        
+                        var data = new FormData($('#team-form')[0]);
+                        console.log('Form Data:');
+                        console.log('name:' + data.name);
+                        console.log('name:' + data.coach);
+                        console.log('name:' + data.record);
+                        console.log('name:' + data.description);
+                        console.log('name:' + data.imagePath);
+                        console.log('name:' + data.image);
+
                         $.post({
                             url: '/teams',
                             data: data,
@@ -36,8 +44,6 @@ function loadIndex(){
     }
   });
 }
-
-
 
 function loadTeam(url){
     var xhr = new XMLHttpRequest();
@@ -96,44 +102,44 @@ function uploadTeam(){
 
 
 
-function uploadData(req, res){
-  multipart(req, res, function(){
-    var jsonData ={
-      name:req.body.team,
-      coach:req.body.coach,
-      description:req.body.description,
-      location:req.body.location,
-      record:req.body.record,
-      imagePath: "/" + req.body.image.filename
-    }
-    var jsonFileName = req.body.image.filename.split('.')[0];
-    fs.writeFile("public/Data/" + jsonFileName + ".json", JSON.stringify(jsonData),function(err){
-      if(err)console.log(err);
-    });
-    jsonFiles[jsonFileName] = jsonData;
-    uploadImage(req, res);
+// function uploadData(req, res){
+//   multipart(req, res, function(){
+//     var jsonData ={
+//       name:req.body.team,
+//       coach:req.body.coach,
+//       description:req.body.description,
+//       location:req.body.location,
+//       record:req.body.record,
+//       imagePath: "/" + req.body.image.filename
+//     }
+//     var jsonFileName = req.body.image.filename.split('.')[0];
+//     fs.writeFile("public/Data/" + jsonFileName + ".json", JSON.stringify(jsonData),function(err){
+//       if(err)console.log(err);
+//     });
+//     jsonFiles[jsonFileName] = jsonData;
+//     uploadImage(req, res);
 
-  });
-}
+//   });
+// }
 
-/** @function uploadImage
- * A function to process an http POST request
- * containing an image to add to the gallery.
- * @param {http.incomingRequest} req - the request object
- * @param {http.serverResponse} res - the response object
- */
-function uploadImage(req, res) { 
-  fs.writeFile('public/images/' + req.body.image.filename, req.body.image.data, function(err){
-    if(err) {
-      console.error(err);
-      res.statusCode = 500;
-      res.statusMessage = "Server Error";
-      res.end("Server Error");
-      return;
-    }
-    serveAllTeams(req, res);
-  });
-}
+// /** @function uploadImage
+//  * A function to process an http POST request
+//  * containing an image to add to the gallery.
+//  * @param {http.incomingRequest} req - the request object
+//  * @param {http.serverResponse} res - the response object
+//  */
+// function uploadImage(req, res) { 
+//   fs.writeFile('public/images/' + req.body.image.filename, req.body.image.data, function(err){
+//     if(err) {
+//       console.error(err);
+//       res.statusCode = 500;
+//       res.statusMessage = "Server Error";
+//       res.end("Server Error");
+//       return;
+//     }
+//     serveAllTeams(req, res);
+//   });
+// }
 
 
 

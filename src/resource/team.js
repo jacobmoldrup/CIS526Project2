@@ -52,7 +52,7 @@ function create(req, res, db) {
   req.on("end", function() {
     var team = JSON.parse(body);
     db.run("INSERT INTO teams (name, description, record, image, coach) VALUES (?,?,?,?,?)",
-      [team.name, team.description, team.record, team.image, team.coach],
+      [team.name, team.description, team.record, team.image, '/public/images/' + team.coach],
       function(err) {
         if(err) {
           console.error(err);
